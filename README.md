@@ -52,7 +52,7 @@ docker exec ipfs_host ipfs add -r /export/<archivo>
 yarn start
 ```
 
-### Usefull links
+### Useful links
 
 #### HTTP API Ref
 https://docs.ipfs.io/reference/http/api/
