@@ -1,51 +1,67 @@
-# HTTP API Ref
-https://docs.ipfs.io/reference/http/api/
+# IPFS React App Example
 
-# JS HTTP API Ref
-https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client
+Example App to use with IPFS
 
-# El CORE de la libreria del cliente
-https://github.com/ipfs/js-ipfs/tree/master/docs/core-api
+## Install
 
-# Repo de WEBUI
-https://github.com/ipfs-shipyard/ipfs-webui
+```sh
+git clone git@github.com:ivanci0/ipfs_react.git
+cd ipfs_react
+yarn install
+```
 
-# Configurar CORS
+## Usage
 
-## Sucia pero rapida
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"*\"]"
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
+### Configure IPFS API CORS headers
 
-## Buena config
-$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin  '["http://example.com"]'
-$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST", "GET"]'
+You must configure your IPFS API at http://127.0.0.1:5001  to allow [cross-origin (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requests from your dev server at http://localhost:3000
 
-# Comandos IPFS
+#### Dirty way
 
-## Para agregar archivos a ipfs docker
+```sh
+docker exec ipfs_host ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"*\"]"
+docker exec ipfs_host ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
+```
+
+#### Good way
+```sh
+docker exec ipfs_host ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io", "http://127.0.0.1:5001"]'
+docker exec ipfs_host ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["POST"]'
+```
+
+#### Reverting
+
+To reset your config back to the default configuration, run the following command.
+
+```sh
+docker exec ipfs_host ipfs config --json API.HTTPHeaders {}
+```
+
+### Add files to IPFS
+
+```sh
 cp -r <archivo> <path/de/staging>
 docker exec ipfs_host ipfs add -r /export/<archivo>
+```
 
-# Comandos para usar ipfs con el MFS
+---> Copy CID to 'record' const on ipfs_react/src/App.js
 
-El contenido añadido con "ipfs add" no se agrega a MFS. Todo contenido tiene que
-agregarse al MFS con el comando "ipfs files cp /ipfs/<cid> /otro/path
+### Start App
 
-## Obtener info de un archivo/carpeta
-docker exec ipfs_host ipfs files stat <path>
+```sh
+yarn start
+```
 
-obtenes metadata =>
-<cid>
-Size: 287619
-CumulativeSize: 287751
-ChildBlocks: 2
-Type: file | directory
+### Usefull links
 
-## Listar archivos de una carpeta
-docker exec ipfs_host ipfs files ls <path>
+#### HTTP API Ref
+https://docs.ipfs.io/reference/http/api/
 
-## Copiar archivos dentro de carpetas
-docker exec ipfs_host ipfs files cp /ipfs/<cid> <path/a/carpeta>
+#### JS HTTP API
+https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client
 
-# Extras
-https://rossbulat.medium.com/ipfs-with-react-loading-ipfs-assets-from-your-distributed-ipfs-gateways-fc601c8307bf
+#### Core API
+https://github.com/ipfs/js-ipfs/tree/master/docs/core-api
+
+#### WEBUI
+https://github.com/ipfs-shipyard/ipfs-webui
