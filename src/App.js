@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img alt="ejemplo" src={`https://127.0.0.1/ipfs/${record}`} />
+        <img alt="ejemplo" src={`http://127.0.0.1:8080/ipfs/${record}`} />
       </header>
     </div>
   );
